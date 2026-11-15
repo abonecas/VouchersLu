@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Descobre os vales | VouchersLu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Playfair+Display:ital,wght@0,500..700;1,500..700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="#/">
+          <span class="brand-mark" aria-hidden="true">✳</span>
+          <span>VouchersLu</span>
+        </a>
+        <span class="header-tagline">Pequenos momentos, por perto</span>
+      </div>
+    </header>
+
+    <main class="site-main">
+      <article class="content" id="app-content"></article>
+    </main>
+
+    <footer class="site-footer">
+      <span>Pequenos momentos, por perto.</span>
+      <span>Feito para momentos especiais.</span>
+    </footer>
+  </div>
+
+  <script>
+    const vouchers = [
+      {
+        id: "1",
+        title: "Vela Aromatica",
+        category: "Aromas para casa",
+        neighborhood: "Loja à tua escolha",
+        offerLabel: "Uma vela perfumada",
+        imageUrl: "images/vouchers/vela-aromatica.png",
+        imageAlt: "Vela perfumada vermelha com a respetiva caixa",
+        shortDescription: "Uma vela perfumada para criar uma atmosfera acolhedora, agradável e relaxante.",
+        detail: "Acende a vela e deixa o seu aroma envolver a nossa casa, criando uma atmosfera acolhedora, agradável e relaxante. Um pequeno detalhe que transforma o ambiente e torna qualquer momento ainda mais especial.",
+        perks: [
+          "Uma vela perfumada à tua escolha",
+          "Escolhida numa loja à tua escolha",
+          "Para perfumar e criar um ambiente acolhedor em nossa casa"
+        ],
+        validity: "Qualquer dia, em qualquer altura",
+        finePrint: "Uma vela por vale. Disponibilidade sujeita a stock."
+      },
+      {
+        id: "2",
+        title: "Chaves de Casa",
+        category: "A nossa primeira casa",
+        neighborhood: "",
+        offerLabel: "Acesso ao nosso primeiro lar ❤️",
+        imageUrl: "images/vouchers/chavecasa.jpg",
+        imageAlt: "Chaves do apartamento na nossa primeira casa",
+        shortDescription: "Ao resgatares este vale, aceitas oficialmente o meu convite para irmos viver juntos!",
+        detail: "O início oficial da nossa nova rotina em Varsóvia. Este vale simboliza o nosso primeiro lar e todas as memórias que vamos construir juntos.",
+        perks: [
+          "Acesso ilimitado ao nosso primeiro apartamento",
+          "Pequenos-almoços e jantares partilhados",
+          "O começo de um novo capítulo juntos"
+        ],
+        validity: "A partir de hoje, para sempre",
+        finePrint: "Válido sem data de expiração."
+      },
+      {
+        id: "3",
+        title: "Mala Uniqlo",
+        category: "Moda",
+        neighborhood: "Loja à tua escolha",
+        offerLabel: "Uma mala à tua escolha",
+        imageUrl: "images/vouchers/malauniqlo.png",
+        imageAlt: "Mala castanha da Uniqlo apresentada por uma modelo",
+        shortDescription: "Para que possas transportar tudo aquilo de que precisas, sempre com muito estilo!",
+        detail: "Prática, versátil e perfeita para os nossos passeios pela cidade. Escolhe a cor e o modelo que mais gostares.",
+        perks: [
+          "Uma mala Uniqlo à tua escolha",
+          "Cor e modelo definidos por ti",
+          "Ideal para o dia a dia e viagens"
+        ],
+        validity: "Qualquer dia, em qualquer altura",
+        finePrint: ""
+      },
+      {
+        id: "4",
+        title: "Bao Steamer",
+        category: "Cozinha",
+        neighborhood: "Sabores Asiáticos",
+        offerLabel: "Loja à tua escolha",
+        imageUrl: "images/vouchers/bao.webp",
+        imageAlt: "Gyozas acabadas de preparar num cesto de bambu",
+        shortDescription: "Com saudades das nossas noites asiáticas? Com este Bao Steamer, já não há desculpas para não prepararmos umas deliciosas gyozas em casa!",
+        detail: "Para recriarmos os nossos pratos asiáticos favoritos em casa, desde gyozas a pãezinhos bao feitos a vapor.",
+        perks: [
+          "Um cesto de bambu (Bao Steamer)",
+          "Inclui ingredientes para a primeira noite asiática",
+          "Jantar preparado em conjunto"
+        ],
+        validity: "Qualquer fim de semana",
+        finePrint: ""
+      },
+      {
+        id: "5",
+        title: "Bouquet de Flores",
+        category: "Flores",
+        neighborhood: "",
+        offerLabel: "Um bouquet de flores",
+        imageUrl: "images/vouchers/flores.webp",
+        imageAlt: "Bouquet de flores cor-de-rosa",
+        shortDescription: "Farta de mandar dicas ao teu namorado de que gostavas de receber mais flores? Então, este vale veio resolver esse problema!",
+        detail: "Um bouquet escolhido especialmente para alegrar a nossa casa e o teu dia, sem precisares de dar indiretas.",
+        perks: [
+          "Um bouquet de flores frescas",
+          "As tuas flores e cores preferidas",
+          "Entregue com um sorriso"
+        ],
+        validity: "Sempre que quiseres",
+        finePrint: ""
+      },
+      {
+        id: "6",
+        title: "Legos",
+        category: "Legos",
+        neighborhood: "Experiências Juntos",
+        offerLabel: "Um conjunto LEGO à tua escolha",
+        imageUrl: "images/vouchers/legos.jpg",
+        imageAlt: "Conjunto LEGO de flores para montar e decorar a casa",
+        shortDescription: "Mete mãos à obra e desfruta de uma tarde descontraída em casa a construir os teus LEGO favoritos!",
+        detail: "Uma tarde tranquila sem ecrãs, com música de fundo e um conjunto LEGO escolhido por ti para montarmos e decorarmos a casa.",
+        perks: [
+          "Um conjunto LEGO à tua escolha",
+          "Tarde de construção a dois",
+          "Peça decorativa para o nosso apartamento"
+        ],
+        validity: "Qualquer tarde livre",
+        finePrint: ""
+      },
+      {
+        id: "7",
+        title: "Puzzle",
+        category: "Puzzles",
+        neighborhood: "Experiências Juntos",
+        offerLabel: "Um puzzle à tua escolha",
+        imageUrl: "images/vouchers/puzzle.jpg",
+        imageAlt: "Dois puzzles coloridos, nas caixas e já montados",
+        shortDescription: "Está frio lá fora e não sabes o que fazer? Está na altura de pôr essas capacidades à prova com uma tarde descontraída a montar um puzzle!",
+        detail: "O programa perfeito para os dias frios em Varsóvia: chá quente, boa companhia e um puzzle desafiante para montarmos peça a peça.",
+        perks: [
+          "Um puzzle à tua escolha",
+          "Bebidas quentes e snacks incluídos",
+          "Horas de diversão tranquila"
+        ],
+        validity: "Ideal para dias frios ou chuvosos",
+        finePrint: ""
+      }
+    ];
+
+    const appContent = document.getElementById("app-content");
+
+    function renderHome() {
+      document.title = "Descobre os vales | VouchersLu";
+      const count = String(vouchers.length).padStart(2, "0");
+
+      const cardsHtml = vouchers.map(v => `
+        <article class="voucher-card">
+          <a class="voucher-image-link" href="#/vouchers/${v.id}" aria-label="Ver vale: ${v.title}">
+            <img class="voucher-image" src="${v.imageUrl}" alt="${v.imageAlt}" />
+            <span class="offer-tag">${v.offerLabel}</span>
+            <span class="image-arrow" aria-hidden="true">↗</span>
+          </a>
+          <div class="voucher-card-body">
+            <div class="card-meta">
+              <span>${v.category}</span>
+              ${v.neighborhood ? `<span class="meta-dot" aria-hidden="true"></span><span>${v.neighborhood}</span>` : ""}
+            </div>
+            <h3><a href="#/vouchers/${v.id}">${v.title}</a></h3>
+            <p>${v.shortDescription}</p>
+            <a class="card-cta" href="#/vouchers/${v.id}">Explorar vale <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      `).join("");
+
+      appContent.innerHTML = `
+        <section class="voucher-home">
+          <div class="welcome">
+            <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true">✳</span> PEQUENOS MOMENTOS, GRANDES MEMÓRIAS</p>
+            <h1>Um novo capítulo<br />cheio de <span>pequenas aventuras nossas</span></h1>
+            <p class="welcome-copy">Várias possibilidades para começarmos a nossa vida em Varsóvia, criarmos novas rotinas e colecionarmos momentos especiais. Escolhe um vale e vamos tornar esta nova aventura ainda mais nossa.</p>
+          </div>
+
+          <div class="list-heading">
+            <div>
+              <p class="eyebrow">O NOSSO LIVRINHO</p>
+              <h2>Vales disponíveis <span class="voucher-count">${count}</span></h2>
+            </div>
+            <p class="list-note">Pequenos grandes momentos para nós.</p>
+          </div>
+
+          <div class="voucher-grid">${cardsHtml}</div>
+
+          <p class="home-note"><span aria-hidden="true">✳</span> As coisas boas sabem ainda melhor quando partilhadas.</p>
+        </section>
+      `;
+    }
+
+    function renderDetail(id) {
+      const v = vouchers.find(item => item.id === id);
+      if (!v) {
+        renderHome();
+        return;
+      }
+
+      document.title = `${v.title} | VouchersLu`;
+
+      const perksHtml = v.perks.map(p => `
+        <li><span class="check-mark" aria-hidden="true">✓</span> ${p}</li>
+      `).join("");
+
+      appContent.innerHTML = `
+        <article class="voucher-detail">
+          <a class="detail-back" href="#/">← Todos os vales</a>
+          <div class="detail-grid">
+            <div class="detail-artwork">
+              <img src="${v.imageUrl}" alt="${v.imageAlt}" />
+              <span class="offer-tag">${v.offerLabel}</span>
+            </div>
+            <div class="detail-copy">
+              <p class="eyebrow">
+                ${v.category}
+                ${v.neighborhood ? `<span class="meta-dot" aria-hidden="true"></span>${v.neighborhood}` : ""}
+              </p>
+              <h1>${v.title}</h1>
+              <p class="detail-description">${v.detail}</p>
+              <div class="includes">
+                <h2>Um pouco mais sobre o vale</h2>
+                <ul>${perksHtml}</ul>
+              </div>
+              <div class="validity">
+                <span class="validity-icon" aria-hidden="true">◷</span>
+                <div><strong>Quando resgatar</strong><span>${v.validity}</span></div>
+              </div>
+              <button class="claim-button" type="button" onclick="claimVoucher(this)">
+                Resgatar Voucher <span aria-hidden="true">→</span>
+              </button>
+              ${v.finePrint ? `<p class="fine-print">${v.finePrint}</p>` : ""}
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function claimVoucher(btn) {
+      btn.innerHTML = 'Voucher Resgatado! ❤️';
+      btn.classList.add('claimed');
+    }
+
+    function router() {
+      const hash = window.location.hash;
+      if (hash.startsWith("#/vouchers/")) {
+        const id = hash.replace("#/vouchers/", "");
+        renderDetail(id);
+      } else {
+        renderHome();
+      }
+      window.scrollTo(0, 0);
+    }
+
+    window.addEventListener("hashchange", router);
+    window.addEventListener("DOMContentLoaded", router);
+  </script>
+</body>
+</html>
