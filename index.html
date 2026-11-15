@@ -17,6 +17,8 @@
       --text-muted: #6e6467;
       --accent: #c5768b;
       --accent-dark: #a85b70;
+      --success: #4a7c59;
+      --error: #b84a5b;
       --border: #efe2e6;
       --font-serif: "Playfair Display", Georgia, serif;
       --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -240,6 +242,18 @@
       height: 100%;
       object-fit: contain;
       padding: 12px;
+      transition: filter 0.3s ease, opacity 0.3s ease;
+    }
+
+    /* Redeemed Card State */
+    .voucher-card.is-redeemed .voucher-image {
+      filter: grayscale(85%) opacity(0.65);
+    }
+
+    .voucher-card.is-redeemed .offer-tag {
+      background: #eef5f0;
+      border-color: #cde0d3;
+      color: var(--success);
     }
 
     .offer-tag {
@@ -318,6 +332,10 @@
       gap: 6px;
     }
 
+    .voucher-card.is-redeemed .card-cta {
+      color: var(--success);
+    }
+
     .home-note {
       text-align: center;
       margin-top: 48px;
@@ -365,6 +383,11 @@
       max-width: 100%;
       max-height: 380px;
       object-fit: contain;
+      transition: filter 0.3s ease, opacity 0.3s ease;
+    }
+
+    .detail-artwork.is-redeemed img {
+      filter: grayscale(85%) opacity(0.7);
     }
 
     .detail-copy h1 {
@@ -457,8 +480,101 @@
     }
 
     .claim-button.claimed {
-      background: #4a7c59;
+      background: var(--success);
       justify-content: center;
+      cursor: default;
+    }
+
+    /* Password Unlock Box */
+    .password-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-top: 14px;
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .password-box.is-open {
+      display: flex;
+    }
+
+    .password-box label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .password-input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .password-input-row input {
+      flex: 1;
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      color: var(--text-main);
+      background: var(--bg-page);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .password-input-row input:focus {
+      border-color: var(--accent);
+    }
+
+    .password-submit {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0 18px;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .password-submit:hover {
+      background: var(--accent-dark);
+    }
+
+    .feedback-message {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      line-height: 1.5;
+      display: none;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .feedback-message.is-error {
+      display: block;
+      background: #fdf0f2;
+      border: 1px solid #f2ccd2;
+      color: var(--error);
+    }
+
+    .feedback-message.is-success {
+      display: block;
+      background: #eef6f0;
+      border: 1px solid #c6e0cd;
+      color: var(--success);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .fine-print {
@@ -486,6 +602,14 @@
       .voucher-grid,
       .detail-grid {
         grid-template-columns: 1fr;
+      }
+
+      .password-input-row {
+        flex-direction: column;
+      }
+
+      .password-submit {
+        padding: 12px;
       }
 
       .site-footer {
@@ -522,6 +646,7 @@
     const vouchers = [
       {
         id: "1",
+        password: "aroma",
         title: "Vela Aromatica",
         category: "Aromas para casa",
         neighborhood: "Loja à tua escolha",
@@ -540,6 +665,7 @@
       },
       {
         id: "2",
+        password: "sim",
         title: "Chaves de Casa",
         category: "A nossa primeira casa",
         neighborhood: "",
@@ -558,6 +684,7 @@
       },
       {
         id: "3",
+        password: "estilo",
         title: "Mala Uniqlo",
         category: "Moda",
         neighborhood: "Loja à tua escolha",
@@ -576,6 +703,7 @@
       },
       {
         id: "4",
+        password: "dumplings",
         title: "Bao Steamer",
         category: "Cozinha",
         neighborhood: "Sabores Asiáticos",
@@ -594,6 +722,7 @@
       },
       {
         id: "5",
+        password: "rosas",
         title: "Bouquet de Flores",
         category: "Flores",
         neighborhood: "",
@@ -612,6 +741,7 @@
       },
       {
         id: "6",
+        password: "blocos",
         title: "Legos",
         category: "Legos",
         neighborhood: "Experiências Juntos",
@@ -630,6 +760,7 @@
       },
       {
         id: "7",
+        password: "criatividade",
         title: "Puzzle",
         category: "Puzzles",
         neighborhood: "Experiências Juntos",
@@ -648,30 +779,56 @@
       }
     ];
 
+    const STORAGE_KEY = "voucherslu_redeemed";
     const appContent = document.getElementById("app-content");
+
+    function getRedeemedIds() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      } catch {
+        return [];
+      }
+    }
+
+    function isRedeemed(id) {
+      return getRedeemedIds().includes(id);
+    }
+
+    function markAsRedeemed(id) {
+      const redeemed = getRedeemedIds();
+      if (!redeemed.includes(id)) {
+        redeemed.push(id);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(redeemed));
+      }
+    }
 
     function renderHome() {
       document.title = "Descobre os vales | VouchersLu";
       const count = String(vouchers.length).padStart(2, "0");
 
-      const cardsHtml = vouchers.map(v => `
-        <article class="voucher-card">
-          <a class="voucher-image-link" href="#/vouchers/${v.id}" aria-label="Ver vale: ${v.title}">
-            <img class="voucher-image" src="${v.imageUrl}" alt="${v.imageAlt}" />
-            <span class="offer-tag">${v.offerLabel}</span>
-            <span class="image-arrow" aria-hidden="true">↗</span>
-          </a>
-          <div class="voucher-card-body">
-            <div class="card-meta">
-              <span>${v.category}</span>
-              ${v.neighborhood ? `<span class="meta-dot" aria-hidden="true"></span><span>${v.neighborhood}</span>` : ""}
+      const cardsHtml = vouchers.map(v => {
+        const redeemed = isRedeemed(v.id);
+        return `
+          <article class="voucher-card ${redeemed ? "is-redeemed" : ""}">
+            <a class="voucher-image-link" href="#/vouchers/${v.id}" aria-label="Ver vale: ${v.title}">
+              <img class="voucher-image" src="${v.imageUrl}" alt="${v.imageAlt}" />
+              <span class="offer-tag">${redeemed ? "✓ Voucher Resgatado" : v.offerLabel}</span>
+              <span class="image-arrow" aria-hidden="true">↗</span>
+            </a>
+            <div class="voucher-card-body">
+              <div class="card-meta">
+                <span>${v.category}</span>
+                ${v.neighborhood ? `<span class="meta-dot" aria-hidden="true"></span><span>${v.neighborhood}</span>` : ""}
+              </div>
+              <h3><a href="#/vouchers/${v.id}">${v.title}</a></h3>
+              <p>${v.shortDescription}</p>
+              <a class="card-cta" href="#/vouchers/${v.id}">
+                ${redeemed ? "Voucher já resgatado ❤️" : 'Explorar vale <span aria-hidden="true">→</span>'}
+              </a>
             </div>
-            <h3><a href="#/vouchers/${v.id}">${v.title}</a></h3>
-            <p>${v.shortDescription}</p>
-            <a class="card-cta" href="#/vouchers/${v.id}">Explorar vale <span aria-hidden="true">→</span></a>
-          </div>
-        </article>
-      `).join("");
+          </article>
+        `;
+      }).join("");
 
       appContent.innerHTML = `
         <section class="voucher-home">
@@ -696,13 +853,14 @@
       `;
     }
 
-    function renderDetail(id) {
+    function renderDetail(id, justUnlocked = false) {
       const v = vouchers.find(item => item.id === id);
       if (!v) {
         renderHome();
         return;
       }
 
+      const redeemed = isRedeemed(v.id);
       document.title = `${v.title} | VouchersLu`;
 
       const perksHtml = v.perks.map(p => `
@@ -713,7 +871,7 @@
         <article class="voucher-detail">
           <a class="detail-back" href="#/">← All vouchers</a>
           <div class="detail-grid">
-            <div class="detail-artwork">
+            <div class="detail-artwork ${redeemed ? "is-redeemed" : ""}">
               <img src="${v.imageUrl}" alt="${v.imageAlt}" />
               <span class="offer-tag">${v.offerLabel}</span>
             </div>
@@ -732,9 +890,28 @@
                 <span class="validity-icon" aria-hidden="true">◷</span>
                 <div><strong>Quando resgatar</strong><span>${v.validity}</span></div>
               </div>
-              <button class="claim-button" type="button" onclick="claimVoucher(this)">
-                Resgatar Voucher <span aria-hidden="true">→</span>
-              </button>
+
+              ${redeemed ? `
+                <button class="claim-button claimed" type="button" disabled>
+                  Voucher Resgatado! ❤️
+                </button>
+              ` : `
+                <button class="claim-button" id="claim-trigger" type="button" onclick="openPasswordBox()">
+                  Resgatar Voucher <span aria-hidden="true">→</span>
+                </button>
+                <div class="password-box" id="password-box">
+                  <label for="voucher-code-input">Introduz o código do teu vale para o resgatares</label>
+                  <div class="password-input-row">
+                    <input type="text" id="voucher-code-input" placeholder="Código secreto..." autocomplete="off" onkeydown="if(event.key==='Enter') verifyPassword('${v.id}')" />
+                    <button class="password-submit" type="button" onclick="verifyPassword('${v.id}')">Confirmar</button>
+                  </div>
+                </div>
+              `}
+
+              <div id="feedback-box" class="feedback-message ${justUnlocked ? "is-success" : ""}">
+                ${justUnlocked ? "Parabéns! Voucher desbloqueado com sucesso! Resgata a tua surpresa quando quiseres. ❤️" : ""}
+              </div>
+
               ${v.finePrint ? `<p class="fine-print">${v.finePrint}</p>` : ""}
             </div>
           </div>
@@ -742,9 +919,38 @@
       `;
     }
 
-    function claimVoucher(btn) {
-      btn.innerHTML = 'Voucher Resgatado! ❤️';
-      btn.classList.add('claimed');
+    function openPasswordBox() {
+      const box = document.getElementById("password-box");
+      const feedback = document.getElementById("feedback-box");
+      if (feedback) {
+        feedback.className = "feedback-message";
+        feedback.textContent = "";
+      }
+      if (box) {
+        box.classList.add("is-open");
+        const input = document.getElementById("voucher-code-input");
+        if (input) input.focus();
+      }
+    }
+
+    function verifyPassword(id) {
+      const v = vouchers.find(item => item.id === id);
+      const input = document.getElementById("voucher-code-input");
+      const box = document.getElementById("password-box");
+      const feedback = document.getElementById("feedback-box");
+      if (!v || !input) return;
+
+      const entered = input.value.trim().toLowerCase();
+
+      if (entered === v.password.toLowerCase()) {
+        markAsRedeemed(id);
+        renderDetail(id, true);
+      } else {
+        box.classList.remove("is-open");
+        input.value = "";
+        feedback.textContent = "Ups! Não é desta que desbloqueias o teu voucher. Tenta novamente!";
+        feedback.className = "feedback-message is-error";
+      }
     }
 
     function router() {
