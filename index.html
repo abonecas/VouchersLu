@@ -112,14 +112,18 @@
       color: var(--accent);
     }
 
-    /* Hero Banner with Concentric Circles */
+    /* Hero Banner with Photo on Right */
     .welcome {
       background: var(--bg-hero);
       border-radius: 28px;
-      padding: 64px 56px;
+      padding: 48px 52px;
       margin-bottom: 48px;
       position: relative;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
     }
 
     .welcome::before,
@@ -145,15 +149,19 @@
       right: 0px;
     }
 
-    .welcome h1 {
-      font-family: var(--font-serif);
-      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
-      font-weight: 600;
-      line-height: 1.12;
-      margin: 18px 0 22px;
-      max-width: 680px;
+    .welcome-text {
+      flex: 1;
       position: relative;
       z-index: 1;
+    }
+
+    .welcome h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.1rem, 4vw, 3.35rem);
+      font-weight: 600;
+      line-height: 1.12;
+      margin: 16px 0 20px;
+      max-width: 560px;
     }
 
     .welcome h1 span {
@@ -162,11 +170,29 @@
     }
 
     .welcome-copy {
-      max-width: 580px;
+      max-width: 520px;
       color: var(--text-muted);
-      font-size: 1.02rem;
+      font-size: 1rem;
+    }
+
+    .welcome-photo-frame {
+      flex: 0 0 310px;
+      height: 320px;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 5px solid #ffffff;
+      box-shadow: 0 14px 32px rgba(168, 91, 112, 0.15);
       position: relative;
       z-index: 1;
+      background: #fff;
+    }
+
+    .welcome-photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
     }
 
     /* List Heading */
@@ -594,11 +620,22 @@
       color: var(--text-muted);
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 860px) {
       .welcome {
+        flex-direction: column;
         padding: 36px 24px;
+        gap: 28px;
       }
 
+      .welcome-photo-frame {
+        flex: none;
+        width: 100%;
+        max-width: 340px;
+        height: 320px;
+      }
+    }
+
+    @media (max-width: 768px) {
       .voucher-grid,
       .detail-grid {
         grid-template-columns: 1fr;
@@ -675,11 +712,11 @@
         shortDescription: "Ao resgatares este vale, aceitas oficialmente o meu convite para irmos viver juntos!",
         detail: "O início oficial da nossa nova vida em Varsóvia. Este vale simboliza o início de um novo capítulo e a oportunidade de construirmos o nosso primeiro lar, cheio de amor, aventuras e memórias felizes.",
         perks: [
-          "Acesso ilimitado ao apartemnto 34 da rua Sarmacka 12H",
+          "Acesso ilimitado ao apartamento 34 da rua Sarmacka 12H",
           "Pequenos-almoços e jantares partilhados",
-          "Acesso a garagem e lixos do edificio",
-          "Chip de entrada no parque do condominio",
-          "Possibilidade de convidares as Nelas, para nossa casa, num futuro proximo"
+          "Acesso à garagem e lixos do edifício",
+          "Chip de entrada no parque do condomínio",
+          "Possibilidade de convidares as Nelas, para nossa casa, num futuro próximo"
         ],
         validity: "A partir de hoje, para sempre",
         finePrint: "Válido sem data de expiração."
@@ -839,9 +876,14 @@
       appContent.innerHTML = `
         <section class="voucher-home">
           <div class="welcome">
-            <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true">✳</span> PEQUENOS MOMENTOS, GRANDES MEMÓRIAS</p>
-            <h1>Um novo capítulo<br />cheio de <span>pequenas aventuras nossas</span></h1>
-            <p class="welcome-copy">Várias possibilidades para começarmos a nossa vida em Varsóvia, criarmos novas rotinas e colecionarmos momentos especiais. Escolhe um vale e vamos tornar esta nova aventura ainda mais nossa.</p>
+            <div class="welcome-text">
+              <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true">✳</span> PEQUENOS MOMENTOS, GRANDES MEMÓRIAS</p>
+              <h1>Um novo capítulo<br />cheio de <span>pequenas aventuras nossas</span></h1>
+              <p class="welcome-copy">Várias possibilidades para começarmos a nossa vida em Varsóvia, criarmos novas rotinas e colecionarmos momentos especiais. Escolhe um vale e vamos tornar esta nova aventura ainda mais nossa.</p>
+            </div>
+            <div class="welcome-photo-frame">
+              <img src="afonso_lu.jpg" alt="Afonso e Lu" />
+            </div>
           </div>
 
           <div class="list-heading">
